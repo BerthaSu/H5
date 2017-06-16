@@ -20,6 +20,36 @@ window.onload=function(){
     }
     var aLi=oUl.children;
     //键盘控制
+
+    aLi[0].addEventListener('transitionend',function(){
+        fnChange();
+    },false);
+
+    document.onkeydown=function(ev){
+        if(ev.keyCode==37){ //左边
+            y-=360/N;
+            fnChange();
+        }
+        if(ev.keyCode==39){ //右边
+            y+=360/N;
+            fnChange();
+        }
+    };
+
+    function fnChange(){
+        for(var i=0; i<aLi.length; i++){
+            aLi[i].style.transition='1s all ease';
+            aLi[i].style.transform=`rotateY(${360/N*i+y}deg) translateZ(300px)`;
+
+            var d=Math.abs(Math.abs((360/N*i+y)%360)-180);
+            var s=d/180;
+
+            s<0.3 && (s=0.3);
+
+            aLi[i].style.opacity=s;
+        }
+    }
+    //拖拽
     document.onmousedown=function (ev){
         var oEvent=ev||event;
         var mouseStartX=oEvent.clientX;
